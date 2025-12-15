@@ -100,6 +100,67 @@ export const ClientProfile = ({ onClose }: ClientProfileProps) => {
                             </div>
                         </Card>
 
+                        {/* My Bookings */}
+                        <Card className="p-4">
+                            <h3 className="mb-3 font-semibold text-foreground">Mis Reservas</h3>
+                            <div className="space-y-3">
+                                {[
+                                    {
+                                        id: '1',
+                                        professional: 'Fontanería García',
+                                        service: 'Fontanería',
+                                        date: '15 Dic 2025',
+                                        time: '10:00',
+                                        status: 'pending',
+                                        price: '85€'
+                                    },
+                                    {
+                                        id: '2',
+                                        professional: 'Electricidad Segura',
+                                        service: 'Electricidad',
+                                        date: '20 Dic 2025',
+                                        time: '16:30',
+                                        status: 'confirmed',
+                                        price: '60€'
+                                    },
+                                    {
+                                        id: '3',
+                                        professional: 'Limpiezas BCN',
+                                        service: 'Limpieza',
+                                        date: '10 Dic 2025',
+                                        time: '09:00',
+                                        status: 'completed',
+                                        price: '45€'
+                                    }
+                                ].map((booking) => (
+                                    <div key={booking.id} className="flex items-center justify-between rounded-lg border p-3">
+                                        <div>
+                                            <p className="font-medium text-foreground">{booking.professional}</p>
+                                            <p className="text-xs text-muted-foreground">{booking.service} • {booking.date}</p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-sm font-bold text-foreground">{booking.price}</p>
+                                            {booking.status === 'pending' && (
+                                                <span className="inline-flex items-center rounded-full bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-800">
+                                                    Pendiente
+                                                </span>
+                                            )}
+                                            {booking.status === 'confirmed' && (
+                                                <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800">
+                                                    Confirmada
+                                                </span>
+                                            )}
+                                            {booking.status === 'completed' && (
+                                                <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
+                                                    Completada
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </Card>
+
                         {/* Favorite Services */}
                         <Card className="p-4">
                             <h3 className="mb-3 font-semibold text-foreground">Servicios favoritos</h3>

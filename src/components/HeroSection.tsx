@@ -172,6 +172,88 @@ export const HeroSection = ({ onExploreMap, onProfessionalClick, onLogin, onRegi
               </motion.div>
             ))}
           </motion.div>
+
+          {/* Pricing Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+            className="mt-20 mb-10"
+          >
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-bold text-primary-foreground mb-4">Planes Simples y Transparentes</h2>
+              <p className="text-primary-foreground/80 max-w-2xl mx-auto">
+                Sin comisiones ocultas. Elige cómo quieres usar iFix.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              {/* Client Plan */}
+              <div className="rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 p-8 text-center relative overflow-hidden group hover:bg-white/15 transition-all">
+                <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-400 to-cyan-300" />
+                <h3 className="text-2xl font-bold text-white mb-2">Para Clientes</h3>
+                <div className="my-6">
+                  <span className="text-5xl font-extrabold text-white">Gratis</span>
+                  <span className="text-white/60 text-lg block mt-2">para siempre</span>
+                </div>
+                <ul className="text-left text-white/80 space-y-3 mb-8 mx-auto max-w-xs">
+                  <li className="flex items-center gap-2">
+                    <Shield className="h-5 w-5 text-cyan-300" />
+                    Acceso a todos los profesionales
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Shield className="h-5 w-5 text-cyan-300" />
+                    Sin comisiones por reserva
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Shield className="h-5 w-5 text-cyan-300" />
+                    Soporte prioritario
+                  </li>
+                </ul>
+                <Button
+                  onClick={onRegister}
+                  className="w-full bg-white text-primary hover:bg-white/90 font-bold"
+                >
+                  Empezar Gratis
+                </Button>
+              </div>
+
+              {/* Professional Plan */}
+              <div className="rounded-3xl bg-gradient-to-br from-secondary/20 to-primary/40 backdrop-blur-md border border-secondary/50 p-8 text-center relative overflow-hidden transform md:-translate-y-4 shadow-2xl">
+                <div className="absolute top-4 right-4 bg-secondary text-primary font-bold text-xs px-3 py-1 rounded-full animate-pulse">
+                  OFERTA ESPECIAL
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2">Para Profesionales</h3>
+                <div className="my-6">
+                  <span className="text-5xl font-extrabold text-white">50€</span>
+                  <span className="text-white/60 text-lg">/mes</span>
+                  <div className="mt-2 inline-block bg-green-500/20 text-green-300 px-4 py-1 rounded-full text-sm font-bold border border-green-500/30">
+                    ¡Primer mes GRATIS!
+                  </div>
+                </div>
+                <ul className="text-left text-white/90 space-y-3 mb-8 mx-auto max-w-xs">
+                  <li className="flex items-center gap-2">
+                    <Sparkles className="h-5 w-5 text-secondary" />
+                    Perfil destacado en el mapa
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Sparkles className="h-5 w-5 text-secondary" />
+                    Gestión de reservas ilimitada
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Sparkles className="h-5 w-5 text-secondary" />
+                    Estadísticas de negocio
+                  </li>
+                </ul>
+                <Button
+                  onClick={onRegister}
+                  className="w-full bg-secondary text-primary hover:bg-secondary/90 font-bold shadow-lg shadow-secondary/20"
+                >
+                  Unirme como Profesional
+                </Button>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </div>
