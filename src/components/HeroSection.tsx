@@ -7,16 +7,18 @@ import { serviceIcons, serviceLabels, ServiceType } from '@/types/professional';
 interface HeroSectionProps {
   onExploreMap: () => void;
   onProfessionalClick: () => void;
+  onLogin: () => void;
+  onRegister: () => void;
 }
 
 const services: ServiceType[] = ['plumbing', 'electrical', 'cleaning', 'mechanic', 'renovations'];
 
-export const HeroSection = ({ onExploreMap, onProfessionalClick }: HeroSectionProps) => {
+export const HeroSection = ({ onExploreMap, onProfessionalClick, onLogin, onRegister }: HeroSectionProps) => {
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-[hsl(199_89%_48%)]" />
-      
+
       {/* Decorative shapes */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-secondary/20 blur-3xl" />
@@ -29,23 +31,36 @@ export const HeroSection = ({ onExploreMap, onProfessionalClick }: HeroSectionPr
         {/* Header */}
         <header className="container mx-auto px-4 py-6">
           <nav className="flex items-center justify-between">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-2"
+              className="flex items-center gap-3"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary">
-                <Wrench className="h-5 w-5 text-secondary-foreground" />
-              </div>
-              <span className="text-xl font-bold text-primary-foreground">CercaDeTi</span>
+              <img
+                src="/ifix-logo.jpg"
+                alt="iFix Logo"
+                className="h-12 w-auto object-contain"
+              />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               className="flex items-center gap-3"
             >
-              <Button variant="glass" size="sm" className="text-primary-foreground border-primary-foreground/20" onClick={onProfessionalClick}>
-                Soy profesional
+              <Button
+                variant="ghost"
+                className="text-primary-foreground hover:bg-primary-foreground/10"
+                onClick={onLogin}
+              >
+                Iniciar Sesión
+              </Button>
+              <Button
+                variant="glass"
+                size="sm"
+                className="text-primary-foreground border-primary-foreground/20"
+                onClick={onRegister}
+              >
+                Registrarse
               </Button>
             </motion.div>
           </nav>

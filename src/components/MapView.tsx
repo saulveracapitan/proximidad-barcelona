@@ -1,11 +1,13 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Filter, List, Map as MapIcon, SlidersHorizontal, X, Star, ChevronDown, Wrench } from 'lucide-react';
+import { ArrowLeft, Filter, List, Map as MapIcon, SlidersHorizontal, X, Star, ChevronDown, Wrench, User } from 'lucide-react';
 import { MapComponent } from './MapComponent';
 import { ProfessionalCard } from './ProfessionalCard';
 import { ServiceFilter } from './ServiceFilter';
 import { ProfessionalProfile } from './ProfessionalProfile';
 import { BookingModal } from './BookingModal';
+import { ClientProfile } from './ClientProfile';
+import { BusinessProfile } from './BusinessProfile';
 import { Button } from './ui/button';
 import { mockProfessionals } from '@/data/mockProfessionals';
 import { Professional, ServiceType } from '@/types/professional';
@@ -27,6 +29,12 @@ export const MapView = ({ onBack, mapboxToken }: MapViewProps) => {
   const [showFilters, setShowFilters] = useState(false);
   const [minRating, setMinRating] = useState<number>(0);
   const [sortBy, setSortBy] = useState<'rating' | 'reviews' | 'price'>('rating');
+  const [showUserProfile, setShowUserProfile] = useState(false);
+  const [userType, setUserType] = useState<'client' | 'business'>('client'); // Toggle between client/business for demo
+
+  // Refs for scrolling to selected professional
+  const professionalRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const listContainerRef = useRef<HTMLDivElement | null>(null);
 
   const filteredProfessionals = useMemo(() => {
     let filtered = mockProfessionals;
@@ -62,6 +70,19 @@ export const MapView = ({ onBack, mapboxToken }: MapViewProps) => {
     return filtered;
   }, [selectedServices, minRating, sortBy]);
 
+  // Scroll to selected professional when it changes
+  useEffect(() => {
+    if (selectedProfessional && professionalRefs.current[selectedProfessional.id]) {
+      const element = professionalRefs.current[selectedProfessional.id];
+      if (element && listContainerRef.current) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+    }
+  }, [selectedProfessional]);
+
   const toggleService = (service: ServiceType) => {
     setSelectedServices((prev) =>
       prev.includes(service)
@@ -89,45 +110,55 @@ export const MapView = ({ onBack, mapboxToken }: MapViewProps) => {
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                <Wrench className="h-4 w-4 text-primary-foreground" />
-              </div>
-              <span className="font-semibold text-foreground">CercaDeTi</span>
+              <img
+                src="/ifix-logo.jpg"
+                alt="iFix Logo"
+                className="h-10 w-auto object-contain"
+              />
             </div>
           </div>
 
           {/* View mode toggle */}
-          <div className="hidden md:flex items-center gap-1 rounded-lg bg-muted p-1">
-            <button
-              onClick={() => setViewMode('split')}
-              className={`rounded-md px-3 py-1.5 text-sm font-medium transition-all ${
-                viewMode === 'split'
+          <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-1 rounded-lg bg-muted p-1">
+              <button
+                onClick={() => setViewMode('split')}
+                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-all ${viewMode === 'split'
                   ? 'bg-card text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              Dividido
-            </button>
-            <button
-              onClick={() => setViewMode('map')}
-              className={`rounded-md px-3 py-1.5 text-sm font-medium transition-all ${
-                viewMode === 'map'
+                  }`}
+              >
+                Dividido
+              </button>
+              <button
+                onClick={() => setViewMode('map')}
+                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-all ${viewMode === 'map'
                   ? 'bg-card text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              <MapIcon className="h-4 w-4" />
-            </button>
-            <button
-              onClick={() => setViewMode('list')}
-              className={`rounded-md px-3 py-1.5 text-sm font-medium transition-all ${
-                viewMode === 'list'
+                  }`}
+              >
+                <MapIcon className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-all ${viewMode === 'list'
                   ? 'bg-card text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
-              }`}
+                  }`}
+              >
+                <List className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* Profile Button */}
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setShowUserProfile(true)}
+              className="rounded-full"
             >
-              <List className="h-4 w-4" />
-            </button>
+              <User className="h-5 w-5" />
+            </Button>
           </div>
 
           <Button
@@ -152,7 +183,7 @@ export const MapView = ({ onBack, mapboxToken }: MapViewProps) => {
               selectedServices={selectedServices}
               onToggleService={toggleService}
             />
-            
+
             <div className="mt-4 flex flex-wrap items-center gap-4">
               {/* Rating filter */}
               <div className="flex items-center gap-2">
@@ -162,11 +193,10 @@ export const MapView = ({ onBack, mapboxToken }: MapViewProps) => {
                     <button
                       key={rating}
                       onClick={() => setMinRating(rating)}
-                      className={`rounded-lg px-2 py-1 text-sm transition-all ${
-                        minRating === rating
-                          ? 'bg-primary text-primary-foreground'
-                          : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                      }`}
+                      className={`rounded-lg px-2 py-1 text-sm transition-all ${minRating === rating
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                        }`}
                     >
                       {rating === 0 ? 'Todos' : `${rating}+`}
                     </button>
@@ -202,9 +232,8 @@ export const MapView = ({ onBack, mapboxToken }: MapViewProps) => {
         {/* Map */}
         {(viewMode === 'split' || viewMode === 'map') && (
           <div
-            className={`${
-              viewMode === 'split' ? 'hidden md:block md:w-1/2 lg:w-3/5' : 'w-full'
-            } relative`}
+            className={`${viewMode === 'split' ? 'hidden md:block md:w-1/2 lg:w-3/5' : 'w-full'
+              } relative`}
           >
             <MapComponent
               professionals={filteredProfessionals}
@@ -223,17 +252,20 @@ export const MapView = ({ onBack, mapboxToken }: MapViewProps) => {
         {/* List */}
         {(viewMode === 'split' || viewMode === 'list') && (
           <div
-            className={`${
-              viewMode === 'split' ? 'w-full md:w-1/2 lg:w-2/5' : 'w-full max-w-4xl mx-auto'
-            } overflow-y-auto bg-muted/30 p-4`}
+            ref={listContainerRef}
+            className={`${viewMode === 'split' ? 'w-full md:w-1/2 lg:w-2/5' : 'w-full max-w-4xl mx-auto'
+              } overflow-y-auto bg-muted/30 p-4`}
           >
             <div className="space-y-4">
               {filteredProfessionals.map((professional, index) => (
                 <motion.div
                   key={professional.id}
+                  ref={(el) => (professionalRefs.current[professional.id] = el)}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
+                  onClick={() => setSelectedProfessional(professional)}
+                  className="cursor-pointer"
                 >
                   <ProfessionalCard
                     professional={professional}
@@ -300,6 +332,14 @@ export const MapView = ({ onBack, mapboxToken }: MapViewProps) => {
         professional={bookingProfessional}
         onClose={() => setBookingProfessional(null)}
       />
+
+      {/* User Profile modals */}
+      {showUserProfile && userType === 'client' && (
+        <ClientProfile onClose={() => setShowUserProfile(false)} />
+      )}
+      {showUserProfile && userType === 'business' && (
+        <BusinessProfile onClose={() => setShowUserProfile(false)} />
+      )}
     </div>
   );
 };

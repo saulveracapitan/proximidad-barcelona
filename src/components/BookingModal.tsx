@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Calendar, Clock, CheckCircle2, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Calendar as CalendarIcon, Clock, CheckCircle2, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Professional } from '@/types/professional';
 import { ServiceBadge } from './ServiceBadge';
 import { Button } from './ui/button';
+import { Calendar } from './ui/calendar';
 
 interface BookingModalProps {
   professional: Professional | null;
@@ -15,30 +16,22 @@ const timeSlots = [
   '16:00', '17:00', '18:00', '19:00'
 ];
 
-const generateDates = () => {
-  const dates: Date[] = [];
-  const today = new Date();
-  for (let i = 1; i <= 14; i++) {
-    const date = new Date(today);
-    date.setDate(today.getDate() + i);
-    if (date.getDay() !== 0) { // Skip Sundays
-      dates.push(date);
-    }
-  }
-  return dates;
-};
-
 export const BookingModal = ({ professional, onClose }: BookingModalProps) => {
   const [step, setStep] = useState<'date' | 'time' | 'confirmed'>('date');
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
   if (!professional) return null;
 
-  const dates = generateDates();
-
   const handleConfirm = () => {
     setStep('confirmed');
+  };
+
+  // Disable past dates and Sundays
+  const isDateDisabled = (date: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today || date.getDay() === 0; // Disable past dates and Sundays
   };
 
   return (
@@ -61,7 +54,7 @@ export const BookingModal = ({ professional, onClose }: BookingModalProps) => {
           {step !== 'confirmed' && (
             <button
               onClick={onClose}
-              className="absolute right-4 top-4 rounded-full p-2 transition-colors hover:bg-muted"
+              className="absolute right-4 top-4 z-10 rounded-full p-2 transition-colors hover:bg-muted"
             >
               <X className="h-5 w-5" />
             </button>
@@ -78,15 +71,15 @@ export const BookingModal = ({ professional, onClose }: BookingModalProps) => {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.2, type: 'spring' }}
-                className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-service-cleaning/10"
+                className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-orange-500/10"
               >
-                <CheckCircle2 className="h-12 w-12 text-service-cleaning" />
+                <Clock className="h-12 w-12 text-orange-500" />
               </motion.div>
               <h2 className="text-2xl font-bold text-foreground">
-                ¡Reserva confirmada!
+                Reserva pendiente de confirmación
               </h2>
               <p className="mt-2 text-muted-foreground">
-                Tu cita ha sido programada con éxito
+                Tu solicitud ha sido enviada a la empresa
               </p>
 
               <div className="mt-6 rounded-xl bg-muted/50 p-4 text-left">
@@ -103,7 +96,7 @@ export const BookingModal = ({ professional, onClose }: BookingModalProps) => {
                 </div>
                 <div className="mt-4 space-y-2 text-sm">
                   <div className="flex items-center gap-2 text-muted-foreground">
-                    <Calendar className="h-4 w-4" />
+                    <CalendarIcon className="h-4 w-4" />
                     <span>
                       {selectedDate?.toLocaleDateString('es-ES', {
                         weekday: 'long',
@@ -124,9 +117,17 @@ export const BookingModal = ({ professional, onClose }: BookingModalProps) => {
                 </div>
               </div>
 
+              <div className="mt-6 rounded-xl bg-orange-500/10 border border-orange-500/20 p-4">
+                <p className="text-sm text-foreground font-medium">
+                  ⏳ Esperando confirmación
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  La empresa revisará tu solicitud y te confirmará la disponibilidad en breve.
+                  Recibirás una notificación cuando la reserva sea confirmada.
+                </p>
+              </div>
+
               <p className="mt-6 text-sm text-muted-foreground">
-                Recibirás un recordatorio antes de la cita. 
-                <br />
                 <span className="text-primary font-medium">Confianza y proximidad, siempre cerca de ti.</span>
               </p>
 
@@ -165,33 +166,24 @@ export const BookingModal = ({ professional, onClose }: BookingModalProps) => {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                   >
-                    <h3 className="flex items-center gap-2 text-lg font-semibold text-foreground">
-                      <Calendar className="h-5 w-5 text-primary" />
+                    <h3 className="flex items-center gap-2 text-lg font-semibold text-foreground mb-4">
+                      <CalendarIcon className="h-5 w-5 text-primary" />
                       Selecciona una fecha
                     </h3>
-                    <div className="mt-4 grid grid-cols-3 gap-2">
-                      {dates.slice(0, 9).map((date) => (
-                        <button
-                          key={date.toISOString()}
-                          onClick={() => setSelectedDate(date)}
-                          className={`
-                            rounded-xl p-3 text-center transition-all
-                            ${selectedDate?.toDateString() === date.toDateString()
-                              ? 'bg-primary text-primary-foreground shadow-lg'
-                              : 'bg-muted/50 hover:bg-muted text-foreground'
-                            }
-                          `}
-                        >
-                          <p className="text-xs uppercase opacity-70">
-                            {date.toLocaleDateString('es-ES', { weekday: 'short' })}
-                          </p>
-                          <p className="text-xl font-bold">{date.getDate()}</p>
-                          <p className="text-xs opacity-70">
-                            {date.toLocaleDateString('es-ES', { month: 'short' })}
-                          </p>
-                        </button>
-                      ))}
+
+                    <div className="flex justify-center">
+                      <Calendar
+                        mode="single"
+                        selected={selectedDate}
+                        onSelect={setSelectedDate}
+                        disabled={isDateDisabled}
+                        initialFocus
+                        className="rounded-md border"
+                        fromDate={new Date()}
+                        toDate={new Date(new Date().setFullYear(new Date().getFullYear() + 1))}
+                      />
                     </div>
+
                     <Button
                       size="lg"
                       variant="hero"

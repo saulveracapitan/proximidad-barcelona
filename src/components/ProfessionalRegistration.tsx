@@ -7,6 +7,7 @@ import { ServiceType, serviceLabels, serviceIcons } from '@/types/professional';
 
 interface ProfessionalRegistrationProps {
   onBack: () => void;
+  onGoToDashboard: () => void;
 }
 
 const services: ServiceType[] = ['plumbing', 'electrical', 'cleaning', 'mechanic', 'renovations'];
@@ -16,10 +17,12 @@ const neighborhoods = [
   'El Raval', 'El Born', 'Barceloneta', 'Horta', 'Les Corts'
 ];
 
-export const ProfessionalRegistration = ({ onBack }: ProfessionalRegistrationProps) => {
+export const ProfessionalRegistration = ({ onBack, onGoToDashboard }: ProfessionalRegistrationProps) => {
   const [step, setStep] = useState<'form' | 'success'>('form');
   const [selectedService, setSelectedService] = useState<ServiceType | null>(null);
   const [selectedNeighborhood, setSelectedNeighborhood] = useState<string>('');
+  const [customService, setCustomService] = useState('');
+  const [customNeighborhood, setCustomNeighborhood] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +45,7 @@ export const ProfessionalRegistration = ({ onBack }: ProfessionalRegistrationPro
           >
             <CheckCircle2 className="h-14 w-14 text-service-cleaning" />
           </motion.div>
-          <h1 className="text-3xl font-bold text-foreground">¡Bienvenido a CercaDeTi!</h1>
+          <h1 className="text-3xl font-bold text-foreground">¡Bienvenido a iFix!</h1>
           <p className="mt-4 text-lg text-muted-foreground">
             Tu perfil ha sido creado con éxito. Pronto empezarás a recibir solicitudes de clientes en tu zona.
           </p>
@@ -57,14 +60,24 @@ export const ProfessionalRegistration = ({ onBack }: ProfessionalRegistrationPro
             </p>
           </div>
 
-          <Button
-            size="lg"
-            variant="hero"
-            className="mt-8"
-            onClick={onBack}
-          >
-            Ir al inicio
-          </Button>
+          <div className="mt-8 space-y-3">
+            <Button
+              size="lg"
+              variant="hero"
+              className="w-full"
+              onClick={onGoToDashboard}
+            >
+              Ir a mi panel
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="w-full"
+              onClick={onBack}
+            >
+              Volver al mapa
+            </Button>
+          </div>
         </motion.div>
       </div>
     );
@@ -82,7 +95,7 @@ export const ProfessionalRegistration = ({ onBack }: ProfessionalRegistrationPro
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <Wrench className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="font-semibold text-foreground">CercaDeTi</span>
+            <span className="font-semibold text-foreground">iFix</span>
           </div>
         </div>
       </header>
@@ -109,7 +122,7 @@ export const ProfessionalRegistration = ({ onBack }: ProfessionalRegistrationPro
             transition={{ delay: 0.1 }}
             className="mt-8 rounded-2xl bg-gradient-to-r from-primary to-[hsl(199_89%_48%)] p-6 text-primary-foreground"
           >
-            <h3 className="text-xl font-semibold">¿Por qué CercaDeTi?</h3>
+            <h3 className="text-xl font-semibold">¿Por qué iFix?</h3>
             <ul className="mt-4 space-y-2">
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
@@ -202,7 +215,35 @@ export const ProfessionalRegistration = ({ onBack }: ProfessionalRegistrationPro
                     <span className="text-sm font-medium">{serviceLabels[service]}</span>
                   </button>
                 ))}
+                <button
+                  type="button"
+                  onClick={() => setSelectedService('other' as any)}
+                  className={`
+                    flex flex-col items-center gap-2 rounded-xl p-4 transition-all
+                    ${selectedService === ('other' as any)
+                      ? 'bg-primary text-primary-foreground shadow-lg'
+                      : 'bg-muted/50 hover:bg-muted text-foreground'
+                    }
+                  `}
+                >
+                  <span className="text-2xl">✨</span>
+                  <span className="text-sm font-medium">Otro</span>
+                </button>
               </div>
+
+              {selectedService === ('other' as any) && (
+                <div className="mt-4 animate-in fade-in slide-in-from-top-2">
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    Especifica tu sector *
+                  </label>
+                  <Input
+                    placeholder="Ej: Carpintería, Jardinería..."
+                    value={customService}
+                    onChange={(e) => setCustomService(e.target.value)}
+                    required
+                  />
+                </div>
+              )}
             </div>
 
             {/* Location */}
@@ -228,7 +269,34 @@ export const ProfessionalRegistration = ({ onBack }: ProfessionalRegistrationPro
                     {neighborhood}
                   </button>
                 ))}
+                <button
+                  type="button"
+                  onClick={() => setSelectedNeighborhood('Otro')}
+                  className={`
+                    rounded-lg px-3 py-2 text-sm font-medium transition-all
+                    ${selectedNeighborhood === 'Otro'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-muted/50 hover:bg-muted text-foreground'
+                    }
+                  `}
+                >
+                  Otro
+                </button>
               </div>
+
+              {selectedNeighborhood === 'Otro' && (
+                <div className="mt-4 animate-in fade-in slide-in-from-top-2">
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    Especifica tu zona *
+                  </label>
+                  <Input
+                    placeholder="Ej: Sant Andreu, Nou Barris..."
+                    value={customNeighborhood}
+                    onChange={(e) => setCustomNeighborhood(e.target.value)}
+                    required
+                  />
+                </div>
+              )}
             </div>
 
             {/* Submit */}
@@ -237,7 +305,12 @@ export const ProfessionalRegistration = ({ onBack }: ProfessionalRegistrationPro
               size="xl"
               variant="hero"
               className="w-full"
-              disabled={!selectedService || !selectedNeighborhood}
+              disabled={
+                !selectedService ||
+                !selectedNeighborhood ||
+                (selectedService === ('other' as any) && !customService) ||
+                (selectedNeighborhood === 'Otro' && !customNeighborhood)
+              }
             >
               Crear mi perfil profesional
             </Button>
