@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Key, MapPin, ExternalLink } from 'lucide-react';
 
 // You can set this to your Mapbox public token
-const MAPBOX_TOKEN = '';
+const MAPBOX_TOKEN = 'pk.eyJ1Ijoic2F1bHZlcmFhIiwiYSI6ImNtajc0dXBpdTAwZ3EzZHM4eG14dzZxa3kifQ.HEH-Snn5aMpftaQdPAnDlA';
 
 const Index = () => {
   const [view, setView] = useState<'home' | 'map' | 'professional'>('home');
