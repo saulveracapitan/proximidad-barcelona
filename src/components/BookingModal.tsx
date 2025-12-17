@@ -237,6 +237,15 @@ export const BookingModal = ({ professional, onClose }: BookingModalProps) => {
                         </button>
                       ))}
                     </div>
+                    <div className="mt-6">
+                      <label className="block text-sm font-medium text-foreground mb-2">
+                        Nota para el profesional (opcional)
+                      </label>
+                      <textarea
+                        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 min-h-[80px]"
+                        placeholder="Describe brevemente lo que necesitas..."
+                      />
+                    </div>
                     <Button
                       size="lg"
                       variant="hero"

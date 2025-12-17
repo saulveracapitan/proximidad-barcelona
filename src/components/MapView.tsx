@@ -16,11 +16,12 @@ import { Input } from './ui/input';
 interface MapViewProps {
   onBack: () => void;
   mapboxToken: string;
+  onLogout: () => void;
 }
 
 type ViewMode = 'split' | 'map' | 'list';
 
-export const MapView = ({ onBack, mapboxToken }: MapViewProps) => {
+export const MapView = ({ onBack, mapboxToken, onLogout }: MapViewProps) => {
   const [viewMode, setViewMode] = useState<ViewMode>('split');
   const [selectedServices, setSelectedServices] = useState<ServiceType[]>([]);
   const [selectedProfessional, setSelectedProfessional] = useState<Professional | null>(null);
@@ -335,7 +336,7 @@ export const MapView = ({ onBack, mapboxToken }: MapViewProps) => {
 
       {/* User Profile modals */}
       {showUserProfile && userType === 'client' && (
-        <ClientProfile onClose={() => setShowUserProfile(false)} />
+        <ClientProfile onClose={() => setShowUserProfile(false)} onLogout={onLogout} />
       )}
       {showUserProfile && userType === 'business' && (
         <BusinessProfile onClose={() => setShowUserProfile(false)} />

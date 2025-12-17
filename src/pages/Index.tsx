@@ -38,7 +38,7 @@ const Index = () => {
 
   // Dashboard profesional
   if (view === 'dashboard') {
-    return <ProfessionalDashboard onBack={() => setView('map')} />;
+    return <ProfessionalDashboard onBack={() => setView('map')} onLogout={() => setView('home')} />;
   }
 
   // Registro profesional
@@ -53,7 +53,7 @@ const Index = () => {
 
   // Vista mapa
   if (view === 'map') {
-    return <MapView onBack={() => setView('home')} mapboxToken={mapboxToken} />;
+    return <MapView onBack={() => setView('home')} mapboxToken={mapboxToken} onLogout={() => setView('home')} />;
   }
 
   // Home

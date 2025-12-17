@@ -19,7 +19,8 @@ import {
     Settings,
     Clock,
     CheckCircle2,
-    XCircle
+    XCircle,
+    LogOut
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -27,6 +28,7 @@ import { ServiceBadge } from './ServiceBadge';
 
 interface ProfessionalDashboardProps {
     onBack: () => void;
+    onLogout: () => void;
 }
 
 // Mock data for the dashboard
@@ -42,16 +44,16 @@ const earningsData = [
 const initialBookings = [
     {
         id: '1',
-        clientName: 'Ana López',
+        clientName: 'Juan Pérez',
         service: 'plumbing',
-        date: '15 Dic 2025',
+        date: '22 Dic 2025',
         time: '10:00',
         status: 'pending',
         amount: 85,
-        address: 'Carrer de Balmes, 123, 2º 1ª',
+        address: 'Carrer de Jordi Girona, 1-3, 08034 Barcelona',
         notes: 'El grifo de la cocina gotea constantemente. Necesito que lo revisen lo antes posible.',
         phone: '+34 612 345 678',
-        email: 'ana.lopez@email.com'
+        email: 'juan.perez@email.com'
     },
     {
         id: '2',
@@ -81,7 +83,7 @@ const initialBookings = [
     },
 ];
 
-export const ProfessionalDashboard = ({ onBack }: ProfessionalDashboardProps) => {
+export const ProfessionalDashboard = ({ onBack, onLogout }: ProfessionalDashboardProps) => {
     const [bookings, setBookings] = useState(initialBookings);
     const [selectedBooking, setSelectedBooking] = useState<typeof initialBookings[0] | null>(null);
     const [showPendingOnly, setShowPendingOnly] = useState(false);
@@ -223,6 +225,14 @@ export const ProfessionalDashboard = ({ onBack }: ProfessionalDashboardProps) =>
                     <div className="flex items-center gap-2">
                         <Button variant="outline" size="icon" className="rounded-full">
                             <Settings className="h-5 w-5" />
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            className="rounded-full text-destructive hover:bg-destructive/10"
+                            onClick={onLogout}
+                        >
+                            <LogOut className="h-5 w-5" />
                         </Button>
                         <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold">
                             FG

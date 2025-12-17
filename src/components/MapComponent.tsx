@@ -11,7 +11,7 @@ interface MapComponentProps {
 }
 
 // Barcelona center coordinates
-const BARCELONA_CENTER: [number, number] = [2.1734, 41.3851];
+const BARCELONA_CENTER: [number, number] = [2.1134, 41.3894]; // UPC Nord FIB
 const BARCELONA_BOUNDS: [[number, number], [number, number]] = [
   [2.0, 41.30], // Southwest
   [2.3, 41.47], // Northeast
@@ -114,29 +114,20 @@ export const MapComponent = ({
     };
   }, [mapboxToken]);
 
-  // Get user location
+  // Get user location - STATIC FOR UPC NORD FIB
   useEffect(() => {
     if (!mapLoaded) return;
 
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const userCoords: [number, number] = [
-            position.coords.longitude,
-            position.coords.latitude,
-          ];
-          setUserLocation(userCoords);
-        },
-        (error) => {
-          console.log('Geolocation error:', error.message);
-          // Silently fail - user location is optional
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 5000,
-          maximumAge: 0,
-        }
-      );
+    // Static location for UPC Nord FIB
+    const fibLocation: [number, number] = [2.1134, 41.3894];
+    setUserLocation(fibLocation);
+
+    // Also fly to this location initially
+    if (map.current) {
+      map.current.flyTo({
+        center: fibLocation,
+        zoom: 15
+      });
     }
   }, [mapLoaded]);
 
@@ -289,8 +280,8 @@ export const MapComponent = ({
             }
           }}
           className={`absolute bottom-24 right-4 z-10 flex h-12 w-12 items-center justify-center rounded-full shadow-lg transition-all hover:scale-110 ${userLocation
-              ? 'bg-blue-500 text-white'
-              : 'bg-white text-gray-700 hover:bg-gray-50'
+            ? 'bg-blue-500 text-white'
+            : 'bg-white text-gray-700 hover:bg-gray-50'
             }`}
           title="Mi ubicación"
         >

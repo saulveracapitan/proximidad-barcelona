@@ -130,7 +130,7 @@ export const mockProfessionals: Professional[] = [
   {
     id: '9',
     name: 'Autoserveis Diagonal',
-    photo: 'https://images.unsplash.com/photo-1632823469850-1b4942d7f0e1?w=400&h=400&fit=crop',
+    photo: 'https://www.shutterstock.com/image-vector/gear-wrench-mechanic-logo-design-600w-2255221165.jpg',
     service: 'mechanic',
     neighborhood: 'Horta',
     rating: 4.5,
@@ -186,7 +186,7 @@ export const mockProfessionals: Professional[] = [
   {
     id: '13',
     name: 'Mecánica Veloz',
-    photo: 'https://images.unsplash.com/photo-1530046339160-ce3e41600f2f?w=400&h=400&fit=crop',
+    photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFapxwjsGOX9P_DBIfxEXifcKppsNeBxtP_g&s',
     service: 'mechanic',
     neighborhood: 'Nou Barris',
     rating: 4.7,
@@ -242,7 +242,7 @@ export const mockProfessionals: Professional[] = [
   {
     id: '17',
     name: 'Limpiezas BCN Centro',
-    photo: 'https://images.unsplash.com/photo-1584621645331-c7eb56f62e83?w=400&h=400&fit=crop',
+    photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpnqaKoj4Eqcdqtm8GRfB9mbIbCGQ4sb_PUQ&s',
     service: 'cleaning',
     neighborhood: 'Eixample',
     rating: 4.8,
@@ -312,7 +312,7 @@ export const mockProfessionals: Professional[] = [
   {
     id: '22',
     name: 'Pulcro Servicios',
-    photo: 'https://images.unsplash.com/photo-1581578731117-104f2a8d23e9?w=400&h=400&fit=crop',
+    photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpzawo2AQt9TfaXDU7QO1KR1WlcCp5yBZBvA&s',
     service: 'cleaning',
     neighborhood: 'Horta',
     rating: 4.6,
@@ -354,7 +354,7 @@ export const mockProfessionals: Professional[] = [
   {
     id: '25',
     name: 'Agua Control',
-    photo: 'https://images.unsplash.com/photo-1603796846097-b36976c771c0?w=400&h=400&fit=crop',
+    photo: 'https://i.pinimg.com/474x/f3/ba/a9/f3baa902ecf7b49c1918a0255315e07c.jpg',
     service: 'plumbing',
     neighborhood: 'Nou Barris',
     rating: 4.6,
@@ -423,8 +423,8 @@ export const mockProfessionals: Professional[] = [
   },
   {
     id: '30',
-    name: 'Tuberías y Desatascos',
-    photo: 'https://images.unsplash.com/photo-1505798577917-a651a5d40320?w=400&h=400&fit=crop',
+    name: 'Fontaneria Garcia',
+    photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdyhYVzoDSoMo_meH9A6v7Q_-lOglXtSUTOw&s',
     service: 'plumbing',
     neighborhood: 'Les Corts',
     rating: 4.5,

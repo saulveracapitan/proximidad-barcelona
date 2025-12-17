@@ -5,15 +5,16 @@ import { Card } from './ui/card';
 
 interface ClientProfileProps {
     onClose: () => void;
+    onLogout: () => void;
 }
 
-export const ClientProfile = ({ onClose }: ClientProfileProps) => {
+export const ClientProfile = ({ onClose, onLogout }: ClientProfileProps) => {
     // Mock client data - in a real app, this would come from authentication/database
     const clientData = {
         name: 'Juan Pérez',
         email: 'juan.perez@email.com',
         phone: '+34 612 345 678',
-        address: 'Carrer de Balmes, 123, Barcelona',
+        address: 'Carrer de Jordi Girona, 1-3, 08034 Barcelona',
         memberSince: 'Enero 2024',
         bookingsCount: 12,
         favoriteServices: ['Fontanería', 'Electricidad'],
@@ -109,7 +110,7 @@ export const ClientProfile = ({ onClose }: ClientProfileProps) => {
                                         id: '1',
                                         professional: 'Fontanería García',
                                         service: 'Fontanería',
-                                        date: '15 Dic 2025',
+                                        date: '22 Dic 2025',
                                         time: '10:00',
                                         status: 'pending',
                                         price: '85€'
@@ -182,7 +183,11 @@ export const ClientProfile = ({ onClose }: ClientProfileProps) => {
                                 <Settings className="h-4 w-4" />
                                 Configuración de cuenta
                             </Button>
-                            <Button variant="outline" className="w-full justify-start gap-2 text-destructive hover:bg-destructive/10">
+                            <Button
+                                variant="outline"
+                                className="w-full justify-start gap-2 text-destructive hover:bg-destructive/10"
+                                onClick={onLogout}
+                            >
                                 <LogOut className="h-4 w-4" />
                                 Cerrar sesión
                             </Button>
