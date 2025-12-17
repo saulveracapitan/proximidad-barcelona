@@ -155,7 +155,7 @@ export const HeroSection = ({ onExploreMap, onProfessionalClick, onLogin, onRegi
           >
             {[
               { icon: Shield, label: 'Profesionales verificados', value: '100%' },
-              { icon: Users, label: 'Clientes satisfechos', value: '+5.000' },
+              { icon: Users, label: 'Clientes que repetirían', value: '+98%' },
               { icon: Clock, label: 'Respuesta promedio', value: '< 2h' },
               { icon: Sparkles, label: 'Valoración media', value: '4.8 ⭐' },
             ].map((stat, index) => (
