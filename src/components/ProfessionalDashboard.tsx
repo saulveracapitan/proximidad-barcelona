@@ -210,6 +210,11 @@ export const ProfessionalDashboard = ({ onBack }: ProfessionalDashboardProps) =>
                         <Button variant="ghost" size="icon" onClick={onBack}>
                             <ArrowLeft className="h-5 w-5" />
                         </Button>
+                        <img
+                            src="/ifix-logo-new.png"
+                            alt="iFix Logo"
+                            className="h-12 w-auto object-contain mr-2"
+                        />
                         <div>
                             <h1 className="text-xl font-bold text-foreground">Panel Profesional</h1>
                             <p className="text-xs text-muted-foreground">Fontanería García</p>

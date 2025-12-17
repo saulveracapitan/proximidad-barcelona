@@ -111,9 +111,9 @@ export const MapView = ({ onBack, mapboxToken }: MapViewProps) => {
             </Button>
             <div className="flex items-center gap-2">
               <img
-                src="/ifix-logo.jpg"
+                src="/ifix-logo-new.png"
                 alt="iFix Logo"
-                className="h-10 w-auto object-contain"
+                className="h-14 w-auto object-contain"
               />
             </div>
           </div>

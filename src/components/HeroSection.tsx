@@ -37,9 +37,9 @@ export const HeroSection = ({ onExploreMap, onProfessionalClick, onLogin, onRegi
               className="flex items-center gap-3"
             >
               <img
-                src="/ifix-logo.jpg"
+                src="/ifix-logo-new.png"
                 alt="iFix Logo"
-                className="h-12 w-auto object-contain"
+                className="h-20 w-auto object-contain"
               />
             </motion.div>
             <motion.div
